@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="sl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moje izmene – Aja in Klobasa</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0d2c23">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet">
+<style>
+:root{--pine:#123a2f;--pine2:#0d2c23;--pine3:#1c4a3d;--pl:#2c5a4c;--frost:#eef2ec;--paper:#f8faf6;--ink:#10241d;--mut:#5f736b;--mut2:#a9c2b7;--mustard:#e2ae35;--ember:#c4402f;--emberbg:#f9e1dc;--pop:#9a6200;--popbg:#fbecc4;--dop:#2f7a58;--dopbg:#dcefe4;--line:#d9e2dc}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--pine2)}
+body{margin:0;font-family:"Bricolage Grotesque",system-ui,sans-serif;color:var(--frost);font-variant-numeric:tabular-nums;background:radial-gradient(1200px 600px at 80% -10%,#1f5546 0%,transparent 60%),var(--pine2);min-height:100vh}
+.app{max-width:600px;margin:0 auto;padding:20px 16px 120px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--mustard);outline-offset:2px;border-radius:8px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:12px;background:var(--mustard);display:grid;place-items:center;flex:none}
+.brand b{display:block;font-size:16px;font-weight:700;font-stretch:85%}
+.brand span{font-size:13px;color:var(--mut2)}
+.sync{font-size:12px;color:var(--mut2);display:flex;align-items:center;gap:6px}
+.sync i{width:8px;height:8px;border-radius:50%;background:#6b8a7e;display:inline-block}
+.sync.ok i{background:#5fd39a}
+h1.v{font-size:30px;font-weight:800;font-stretch:80%;margin:24px 2px 14px;letter-spacing:-.01em}
+.hello{margin:22px 2px 14px;font-size:15px;color:var(--mut2)}.hello strong{color:var(--frost);font-weight:600}
+/* ticket */
+.ticket{position:relative;background:var(--mustard);color:var(--ink);border-radius:22px;display:grid;grid-template-columns:1fr 118px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(0,0,0,.6);cursor:pointer;width:100%;border:0;text-align:left;padding:0}
+.ticket::before,.ticket::after{content:"";position:absolute;right:108px;width:20px;height:20px;border-radius:50%;background:var(--pine2)}
+.ticket::before{top:-10px}.ticket::after{bottom:-10px}
+.tk-main{padding:20px 20px 18px}
+.tk-k{font-size:13px;font-weight:600;opacity:.75}
+.tk-day{font-size:clamp(52px,16vw,80px);line-height:.88;font-weight:800;font-stretch:75%;letter-spacing:-.02em;margin:10px 0 4px}
+.tk-wd{font-size:20px;font-weight:600;text-transform:capitalize}
+.tk-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:13px;font-weight:600;background:rgba(16,36,29,.1)}
+.tk-side{border-left:2px dashed rgba(16,36,29,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px}
+.tk-cnt{font-size:44px;font-weight:800;font-stretch:75%;line-height:1}
+.tk-cl{font-size:13px;font-weight:600;opacity:.75;margin-top:4px}
+@keyframes rise{from{transform:translateY(16px) rotate(-1deg);opacity:0}to{transform:none;opacity:1}}
+.ticket.anim{animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
+.prog{margin:16px 2px 0;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mut2)}
+.bar{flex:1;height:8px;border-radius:99px;overflow:hidden;display:flex;gap:2px}
+.bar i{flex:1;background:#2f6a5b}.bar i.done{background:var(--mustard)}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:16px;background:var(--pl);border-radius:16px;overflow:hidden}
+.nums div{background:var(--pine);padding:12px 14px}
+.nums b{display:block;font-size:24px;font-weight:700;font-stretch:85%}
+.nums span{font-size:13px;color:var(--mut2)}
+/* panels */
+.panel{background:var(--paper);color:var(--ink);border-radius:24px;padding:18px 16px;margin-top:18px}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.ph h2{margin:0;font-size:21px;font-weight:700;font-stretch:85%;letter-spacing:-.01em}
+.ph .s{font-size:13px;color:var(--mut)}
+.seg{display:flex;background:var(--frost);border-radius:12px;padding:3px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:6px 11px;border-radius:9px;font-size:14px;font-weight:600;color:var(--mut)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.wd{font-size:12px;color:var(--mut);text-align:center;padding-bottom:4px;font-weight:600}
+.cell{aspect-ratio:1/1.08;border-radius:12px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:15px;font-weight:500;color:var(--ink);position:relative;padding:0}
+.cell.blank{visibility:hidden}.cell.oor{color:#b7c3bd;cursor:default}
+.cell.free{background:var(--frost)}
+.cell.POP{background:var(--mustard);font-weight:700}.cell.DOP{background:#9fd2b5;font-weight:700}.cell.K,.cell.X{background:var(--ember);color:#fff;font-weight:700}
+.cell small{font-size:10px;font-weight:700}
+.cell .dot{position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--ink)}
+.cell.K .dot{background:#fff}
+.cell .cnt{font-size:10px;color:var(--mut);font-weight:600}
+.cell.today::after{content:"";position:absolute;inset:-3px;border:2px solid var(--ink);border-radius:14px}
+.cell.past{opacity:.45}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--mut)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-1px;margin-right:6px}
+/* list rows */
+.wkh{font-size:13px;color:var(--mut);font-weight:600;margin:14px 4px 8px;display:flex;justify-content:space-between}
+.wkh:first-child{margin-top:0}
+.sh{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:9px;border-radius:16px;background:var(--frost);margin-bottom:6px;width:100%;border:0;text-align:left;color:var(--ink)}
+.sh.past{opacity:.55}
+.dt{width:52px;height:52px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--mustard)}
+.dt.K,.dt.X{background:var(--ember);color:#fff}.dt.DOP{background:#9fd2b5}
+.dt b{font-size:21px;line-height:1;font-weight:800;font-stretch:80%}.dt span{font-size:11px;font-weight:600}
+.t1{font-weight:600;font-size:16px;text-transform:capitalize}
+.t2{font-size:13px;color:var(--mut);margin-top:2px}
+.av{display:flex;justify-content:flex-end;margin-top:4px}.av i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--frost);margin-left:-7px}
+.tm{font-weight:700;font-size:15px;text-align:right}.tm.none{font-weight:500;color:var(--mut);font-size:13px}
+.tag{font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.tag.POP{background:var(--popbg);color:var(--pop)}.tag.DOP{background:var(--dopbg);color:var(--dop)}.tag.K,.tag.X{background:var(--emberbg);color:var(--ember)}
+/* today strip */
+.today-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.pp{flex:none;display:flex;align-items:center;gap:8px;background:var(--frost);border-radius:999px;padding:5px 12px 5px 5px;font-size:14px;font-weight:600}
+.pp i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-size:11px;font-weight:700}
+.empty{color:var(--mut);font-size:14px}
+/* team grid */
+.grid{width:100%;border-collapse:separate;border-spacing:3px;font-size:13px}
+.grid th{font-weight:600;color:var(--mut);font-size:12px;padding:2px 0}
+.grid th.n{text-align:left}
+.grid td{text-align:center;border-radius:8px;height:34px;font-weight:700;font-size:11px}
+.grid td.n{text-align:left;font-weight:600;font-size:13px;padding:0 4px;white-space:nowrap;cursor:pointer}
+.grid tr.me td.n{color:var(--ember)}
+.grid td.c-POP{background:var(--mustard)}.grid td.c-DOP{background:#9fd2b5}.grid td.c-K,.grid td.c-X{background:var(--ember);color:#fff}.grid td.c-{background:var(--frost)}
+.grid th.today{color:var(--ink);text-decoration:underline}
+.scroll{overflow-x:auto}
+.nav2{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.circ{width:38px;height:38px;border-radius:12px;border:0;background:var(--frost);font-size:18px;font-weight:700;color:var(--ink)}
+.circ:disabled{opacity:.3}
+/* mates */
+.mate{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:6px 0;border:0;background:none;width:100%;text-align:left;color:var(--ink)}
+.mate .a{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px}
+.mate .n{font-weight:600}.mate .s{font-size:13px;color:var(--mut)}
+.mate .c{font-weight:700;font-size:18px}
+.mbar{height:5px;border-radius:9px;background:var(--frost);margin-top:5px;overflow:hidden}.mbar i{display:block;height:100%;background:var(--pine3)}
+/* hours */
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.big3 div{background:var(--frost);border-radius:16px;padding:12px}
+.big3 b{display:block;font-size:24px;font-weight:800;font-stretch:80%}
+.big3 span{font-size:12px;color:var(--mut);font-weight:600}
+.hr{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line);font-size:14px;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;color:var(--ink)}
+.hr:last-child{border-bottom:0}
+.hr .h{font-weight:700;text-align:right;min-width:52px}
+.hr .e{color:var(--mut);text-align:right;min-width:62px}
+.edited{font-size:11px;color:var(--pop);font-weight:700;margin-left:6px}
+/* forms */
+.f{display:grid;gap:6px;margin-top:12px;font-size:13px;color:var(--mut);font-weight:600}
+.f input,.f select,.f textarea{font-size:16px;padding:11px 12px;border-radius:14px;border:1px solid var(--line);background:var(--frost);color:var(--ink);width:100%;font-weight:500}
+.f textarea{min-height:76px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grp{margin-top:16px}.grp h4{margin:0;font-size:15px;display:flex;align-items:center;gap:8px}
+.btn{border:0;border-radius:16px;padding:14px;font-weight:700;font-size:15px;background:var(--mustard);color:var(--ink);text-align:center;text-decoration:none;display:block;width:100%}
+.btn.dark{background:var(--ink);color:var(--paper)}
+.btn.soft{background:var(--frost);color:var(--ink)}
+.btns{display:grid;gap:8px;margin-top:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.note{font-size:13px;color:var(--mut);margin-top:10px;line-height:1.5}
+.file{border:2px dashed var(--line);border-radius:16px;padding:16px;text-align:center;font-size:14px;color:var(--mut);display:block;cursor:pointer}
+.file b{color:var(--ink);display:block;font-size:15px;margin-bottom:2px}
+.file input{display:none}
+.file.drag{border-color:var(--mustard);background:var(--popbg)}
+/* bottom nav */
+.tabs{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(568px,calc(100% - 24px));background:rgba(13,44,35,.92);backdrop-filter:blur(12px);border:1px solid var(--pl);border-radius:22px;display:grid;grid-template-columns:repeat(5,1fr);padding:6px;z-index:5}
+.tabs button{border:0;background:none;color:var(--mut2);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:7px 0;border-radius:16px}
+.tabs button[aria-current=page]{background:var(--mustard);color:var(--ink)}
+.tabs svg{width:22px;height:22px}
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(5,20,15,.55);opacity:0;pointer-events:none;transition:opacity .25s;z-index:8}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;width:min(600px,100%);transform:translate(-50%,105%);visibility:hidden;background:var(--paper);color:var(--ink);border-radius:26px 26px 0 0;padding:10px 20px 28px;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility .32s;max-height:90vh;overflow:auto;z-index:9}
+.sheet.on{transform:translate(-50%,0);visibility:visible}
+.sheet h3:focus{outline:none}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 14px}
+.sheet h3{margin:0;font-size:28px;font-weight:800;font-stretch:80%;text-transform:capitalize}
+.sheet .sub{color:var(--mut);margin-top:2px}
+.bigc{margin:14px 0;padding:16px;border-radius:18px;background:var(--mustard);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bigc.K,.bigc.X{background:var(--ember);color:#fff}.bigc.DOP{background:#9fd2b5}.bigc.free{background:var(--frost)}
+.bigc b{font-size:19px}.bigc span{font-size:20px;font-weight:800}
+.who{display:grid;gap:6px;margin-top:8px}
+.who div{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:12px;background:var(--frost);font-weight:500}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,30px);background:var(--mustard);color:var(--ink);padding:12px 18px;border-radius:14px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:10;max-width:90%;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.view[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:380px){.ticket{grid-template-columns:1fr 96px}.ticket::before,.ticket::after{right:86px}.tk-cnt{font-size:36px}.big3 b{font-size:20px}}
+</style></head><body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="3.5" fill="#123a2f"/><path d="M6 12.5c2-1 4 1 6 0s4-1 6 0" stroke="#e2ae35" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></div>
+      <div><b>Aja in Klobasa</b><span id="whoami"></span></div>
+    </div>
+    <div class="sync" id="sync"><i></i><span>Shranjeno na napravi</span></div>
+  </header>
+
+  <!-- DOMOV -->
+  <section class="view" id="v-home">
+    <p class="hello" id="hello"></p>
+    <button class="ticket anim" id="ticket"></button>
+    <div class="prog"><div class="bar" id="bar"></div><span id="progt"></span></div>
+    <div class="nums" id="nums"></div>
+    <section class="panel"><div class="ph"><h2 id="todayH">Danes na stojnici</h2></div><div class="today-row" id="todayRow"></div></section>
+    <section class="panel"><div class="ph"><h2>Prihajajoče izmene</h2><span class="s" id="upcS"></span></div><div id="upc"></div>
+      <div class="btns"><button class="btn soft" data-go="cal">Vse izmene v koledarju</button></div></section>
+  </section>
+
+  <!-- KOLEDAR -->
+  <section class="view" id="v-cal" hidden>
+    <h1 class="v">Koledar</h1>
+    <section class="panel">
+      <div class="ph"><div class="seg" id="seg" role="group" aria-label="Mesec"></div><div class="seg" id="calMode" role="group" aria-label="Prikaz"><button data-m="me" aria-pressed="true">Moje</button><button data-m="all" aria-pressed="false">Zasedenost</button></div></div>
+      <div class="wk" id="cal"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+    <section class="panel"><div class="ph"><h2>Seznam izmen</h2></div><div id="list"></div></section>
+  </section>
+
+  <!-- EKIPA -->
+  <section class="view" id="v-team" hidden>
+    <h1 class="v">Ekipa</h1>
+    <section class="panel">
+      <div class="nav2" style="margin-bottom:12px"><button class="circ" id="wPrev" aria-label="Prejšnji teden">‹</button><b id="wLab"></b><button class="circ" id="wNext" aria-label="Naslednji teden">›</button></div>
+      <div class="scroll"><table class="grid" id="grid"></table></div>
+      <p class="note">Tapni ime za seznam izmen te osebe.</p>
+    </section>
+    <section class="panel"><div class="ph"><h2>S kom delaš</h2><span class="s">dni skupaj na stojnici</span></div><div id="mates"></div></section>
+  </section>
+
+  <!-- URE -->
+  <section class="view" id="v-hours" hidden>
+    <h1 class="v">Ure in zaslužek</h1>
+    <section class="panel">
+      <div class="ph"><div class="seg" id="hSeg" role="group" aria-label="Obdobje"></div></div>
+      <div class="big3" id="hTot"></div>
+      <p class="note" id="hNote"></p>
+    </section>
+    <section class="panel"><div class="ph"><h2>Po izmenah</h2><span class="s">tapni za vpis dejanskih ur</span></div><div id="hList"></div></section>
+  </section>
+
+  <!-- VEČ -->
+  <section class="view" id="v-more" hidden>
+    <h1 class="v">Nastavitve</h1>
+    <section class="panel">
+      <div class="ph"><h2>Kdo si</h2></div>
+      <label class="f">Moje ime v urniku<select id="meSel"></select></label>
+    </section>
+    <section class="panel">
+      <div class="ph"><h2>Ure izmen</h2></div>
+      <div id="timeF"></div>
+      <label class="f">Urna postavka (€ na uro)<input id="rate" type="number" min="0" step="0.1" inputmode="decimal" placeholder="npr. 7,50"></label>
+      <div class="btns"><button class="btn dark" id="saveSet">Shrani nastavitve</button><button class="btn soft" id="clearSet">Počisti vse</button></div>
+    </section>
+    <section class="panel">
+      <div class="ph"><h2>Izvoz</h2></div>
+      <div class="btns">
+        <button class="btn" id="icsBtn">Prenesi izmene za koledar telefona (.ics)</button>
+        <button class="btn soft" id="copyBtn">Kopiraj seznam izmen</button>
+      </div>
+      <p class="note">Datoteko .ics odpreš na telefonu, pa se vse izmene dodajo v Google ali Apple koledar. Posamezno izmeno dodaš v Google Koledar tudi iz okna dneva.</p>
+    </section>
+    <section class="panel">
+      <div class="ph"><h2>Nov urnik</h2><span class="s" id="srcS"></span></div>
+      <label class="file" id="drop"><b>Naloži Excel z urnikom</b>Nov urnik (.xlsx) se naloži samo na tej napravi. Za vse ga posodobi skrbnik na GitHubu.<input type="file" id="xlsx" accept=".xlsx,.xls,.xlsm,.csv"></label>
+      <div class="btns" id="resetWrap" hidden><button class="btn soft" id="resetSched">Vrni skupni urnik</button></div>
+    </section>
+  </section>
+</div>
+
+<nav class="tabs" aria-label="Glavni meni">
+  <button data-go="home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Domov</button>
+  <button data-go="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Koledar</button>
+  <button data-go="team"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.3 0 4 1.5 4.5 4"/></svg>Ekipa</button>
+  <button data-go="hours"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Ure</button>
+  <button data-go="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Več</button>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="grab"></div><div id="shBody"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const DEFAULT={"people": ["TAJA GORJANC", "NIKA GORJANC", "VLADIMIR JAGODIĆ", "STEFAN VOROTNJAK", "MAŠA BORSTNAR", "NINA KOSHNIK", "BRANE VASILIĆ", "SAMO MASLEŠA", "SANJA ĆUK"], "days": [{"d": "2026-11-27", "c": {"STEFAN VOROTNJAK": "POP", "MAŠA BORSTNAR": "DOP"}}, {"d": "2026-11-28", "c": {"MAŠA BORSTNAR": "DOP"}}, {"d": "2026-11-29", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP"}}, {"d": "2026-11-30", "c": {"VLADIMIR JAGODIĆ": "POP", "NIKA GORJANC": "DOP"}}, {"d": "2026-12-01", "c": {"STEFAN VOROTNJAK": "POP"}}, {"d": "2026-12-02", "c": {"VLADIMIR JAGODIĆ": "POP", "NIKA GORJANC": "DOP"}}, {"d": "2026-12-03", "c": {"VLADIMIR JAGODIĆ": "POP", "MAŠA BORSTNAR": "DOP"}}, {"d": "2026-12-04", "c": {"STEFAN VOROTNJAK": "POP"}}, {"d": "2026-12-05", "c": {"MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-06", "c": {"STEFAN VOROTNJAK": "DOP", "MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-07", "c": {"NIKA GORJANC": "DOP", "STEFAN VOROTNJAK": "POP"}}, {"d": "2026-12-08", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP"}}, {"d": "2026-12-09", "c": {"NIKA GORJANC": "DOP", "MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-10", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP"}}, {"d": "2026-12-11", "c": {"NIKA GORJANC": "DOP", "STEFAN VOROTNJAK": "POP"}}, {"d": "2026-12-12", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP"}}, {"d": "2026-12-13", "c": {"STEFAN VOROTNJAK": "DOP", "MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-14", "c": {"NIKA GORJANC": "DOP", "STEFAN VOROTNJAK": "POP"}}, {"d": "2026-12-15", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP"}}, {"d": "2026-12-16", "c": {"NIKA GORJANC": "DOP", "MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-17", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP", "STEFAN VOROTNJAK": "POP", "BRANE VASILIĆ": "POP", "SAMO MASLEŠA": "POP"}}, {"d": "2026-12-18", "c": {"NIKA GORJANC": "DOP", "STEFAN VOROTNJAK": "POP"}}, {"d": "2026-12-19", "c": {"TAJA GORJANC": "DOP"}}, {"d": "2026-12-20", "c": {"NIKA GORJANC": "DOP", "MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-21", "c": {"VLADIMIR JAGODIĆ": "POP", "NIKA GORJANC": "DOP"}}, {"d": "2026-12-22", "c": {"STEFAN VOROTNJAK": "POP", "NINA KOSHNIK": "DOP"}}, {"d": "2026-12-23", "c": {"NIKA GORJANC": "DOP", "MAŠA BORSTNAR": "POP"}}, {"d": "2026-12-24", "c": {"MAŠA BORSTNAR": "DOP"}}, {"d": "2026-12-25", "c": {}}, {"d": "2026-12-26", "c": {"STEFAN VOROTNJAK": "DOP", "BRANE VASILIĆ": "K", "SAMO MASLEŠA": "K", "SANJA ĆUK": "K"}}, {"d": "2026-12-27", "c": {"STEFAN VOROTNJAK": "DOP", "BRANE VASILIĆ": "K", "SAMO MASLEŠA": "K", "SANJA ĆUK": "K"}}, {"d": "2026-12-28", "c": {"VLADIMIR JAGODIĆ": "K", "TAJA GORJANC": "K", "STEFAN VOROTNJAK": "POP/K", "NINA KOSHNIK": "DOP", "BRANE VASILIĆ": "K", "SAMO MASLEŠA": "K"}}, {"d": "2026-12-29", "c": {"VLADIMIR JAGODIĆ": "K", "TAJA GORJANC": "K", "STEFAN VOROTNJAK": "POP/K", "NINA KOSHNIK": "DOP", "BRANE VASILIĆ": "K", "SAMO MASLEŠA": "K"}}, {"d": "2026-12-30", "c": {"VLADIMIR JAGODIĆ": "K", "TAJA GORJANC": "K", "NINA KOSHNIK": "DOP", "BRANE VASILIĆ": "K", "SAMO MASLEŠA": "K", "SANJA ĆUK": "K"}}, {"d": "2026-12-31", "c": {"NINA KOSHNIK": "DOP", "BRANE VASILIĆ": "K", "SAMO MASLEŠA": "K"}}, {"d": "2027-01-01", "c": {"STEFAN VOROTNJAK": "POP", "NINA KOSHNIK": "DOP", "BRANE VASILIĆ": "K"}}, {"d": "2027-01-02", "c": {"VLADIMIR JAGODIĆ": "POP", "TAJA GORJANC": "DOP"}}, {"d": "2027-01-03", "c": {"STEFAN VOROTNJAK": "DOP"}}], "source": "Urnik_2026_Aja_in_klobasa.xlsx"};
+const DN=['nedelja','ponedeljek','torek','sreda','četrtek','petek','sobota'];
+const DS=['ned','pon','tor','sre','čet','pet','sob'];
+const MN=['januar','februar','marec','april','maj','junij','julij','avgust','september','oktober','november','december'];
+const MS=['jan','feb','mar','apr','maj','jun','jul','avg','sep','okt','nov','dec'];
+const COL=['#2f6a5b','#8b5a2b','#5a4f8f','#b0476a','#2d6f8f','#7a7a2a','#9a4b2f','#3f7f46','#6a4a7a','#4a6a8a'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const title=n=>String(n).toLowerCase().replace(/(^|[\s-])(\S)/g,(m,a,b)=>a+b.toUpperCase());
+const ini=n=>title(n).split(/\s+/).map(x=>x[0]).join('').slice(0,2);
+const dt=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const key=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const fmtD=d=>d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear();
+const base=c=>{c=String(c||'').toUpperCase();return c.startsWith('POP')?'POP':c.startsWith('DOP')?'DOP':c.startsWith('K')?'K':c?'X':''};
+const plural=(n,a,b,c,d)=>n%100==1?a:n%100==2?b:(n%100==3||n%100==4)?c:d;
+
+/* ---------- state ---------- */
+let S={sched:DEFAULT,set:{me:null,times:{POP:['',''],DOP:['',''],K:['','']},rate:''},log:{}};
+try{const l=JSON.parse(localStorage.getItem('aja-app')||'null');if(l&&l.sched)S=l;else{const t=JSON.parse(localStorage.getItem('aja-times')||'null');if(t)Object.assign(S.set.times,t)}}catch(e){}
+if(!S.set.me||!S.sched.people.includes(S.set.me))S.set.me=S.sched.people[0];
+let db=null,docRef=null,saving=false,pending=false,saveT=null;
+function persist(){try{localStorage.setItem('aja-app',JSON.stringify(S))}catch(e){}
+  clearTimeout(saveT);saveT=setTimeout(pushCloud,500)}
+async function pushCloud(){if(!docRef)return;if(saving){pending=true;return}saving=true;
+  try{await docRef.set(JSON.parse(JSON.stringify(S)));syncState(true)}catch(e){syncState(false,e&&e.code==='quota_exceeded'?'Shramba polna':null)}
+  saving=false;if(pending){pending=false;pushCloud()}}
+function syncState(ok,msg){const el=$('sync');el.classList.toggle('ok',!!ok);el.querySelector('span').textContent=msg||(ok?'Urnik posodobljen':'Shranjeno na napravi')}
+let sharedSched=null,isOwner=false,sharedRef=null;
+function applyShared(){if(!sharedSched)return false;const a=JSON.stringify(S.sched),b=JSON.stringify(sharedSched);if(a===b)return false;
+  S.sched=JSON.parse(b);if(!S.sched.people.includes(S.set.me)){S.set.chosen=false}curM=null;wIdx=null;try{localStorage.setItem('aja-app',JSON.stringify(S))}catch(e){}return true}
+(async()=>{try{
+  const r=await fetch('urnik.xlsx',{cache:'no-cache'});if(!r.ok)return;
+  await loadXLSX();const wb=XLSX.read(await r.arrayBuffer(),{cellDates:true});
+  const p=parseRows(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:true,defval:null}));
+  if(S.sched.local){syncState(false,'Lokalni urnik');return}
+  sharedSched={people:p.people,days:p.days,source:'urnik.xlsx'};
+  if(applyShared()){renderAll();if(!S.set.chosen&&!chooserOpen)chooser()}
+  syncState(true);
+}catch(e){}})();
+
+/* ---------- derived ---------- */
+const now0=()=>{const t=new Date();t.setHours(0,0,0,0);return t};
+let today=now0();
+const dayMap=()=>{const m={};S.sched.days.forEach(x=>m[x.d]=x);return m};
+let MAP=dayMap();
+const pIdx=n=>S.sched.people.indexOf(n);
+const pc=n=>COL[Math.max(0,pIdx(n))%COL.length];
+const myCode=x=>x&&x.c[S.set.me]||'';
+const mine=()=>S.sched.days.filter(x=>myCode(x));
+const others=x=>Object.entries(x.c).filter(([n])=>n!==S.set.me);
+const NAME=c=>{const b=base(c);return c==='POP/K'?'Popoldan / K':b==='POP'?'Popoldan':b==='DOP'?'Dopoldan':b==='K'?'Izmena K':c};
+const tFor=c=>S.set.times[base(c)]||['',''];
+const tstr=(c,d)=>{const l=d&&S.log[d];const t=(l&&l.s)?[l.s,l.e]:tFor(c);return t[0]?(t[0]+(t[1]?' – '+t[1]:'')):''};
+const mins=(a,b)=>{if(!a||!b)return 0;const[h1,m1]=a.split(':').map(Number),[h2,m2]=b.split(':').map(Number);let x=(h2*60+m2)-(h1*60+m1);if(x<=0)x+=1440;return x};
+const hoursOf=x=>{const l=S.log[x.d];if(l&&l.s&&l.e)return mins(l.s,l.e)/60;const t=tFor(myCode(x));return mins(t[0],t[1])/60};
+const hfmt=h=>{const H=Math.floor(h+1e-6),M=Math.round((h-H)*60);return M?H+' h '+M+' min':H+' h'};
+const eur=v=>v.toLocaleString('sl-SI',{style:'currency',currency:'EUR'});
+const startDT=x=>{const d=dt(x.d);const l=S.log[x.d];const t=(l&&l.s)||tFor(myCode(x))[0];if(t){const[h,m]=t.split(':');d.setHours(+h,+m)}return d};
+
+/* ---------- views ---------- */
+let view='home';
+function go(v){view=v;document.querySelectorAll('.view').forEach(s=>s.hidden=s.id!=='v-'+v);
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.go===v?'page':'false'));
+  window.scrollTo({top:0});try{history.replaceState(null,'','#'+v)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+
+function renderHome(){
+  const M=mine();const now=new Date();
+  $('whoami').textContent=title(S.set.me);
+  const nx=M.find(x=>tstr(myCode(x),x.d)?startDT(x)>now:dt(x.d)>=today);
+  const el=$('ticket');
+  if(!nx){el.innerHTML=`<div class="tk-main"><div class="tk-k">Urnik</div><div class="tk-day">Prosto</div><div class="tk-wd">V tem urniku ni več tvojih izmen.</div></div><div class="tk-side"></div>`;el.onclick=()=>go('more')}
+  else{const c=myCode(nx),d=dt(nx.d),diff=Math.round((d-today)/864e5),t=tstr(c,nx.d);let cnt,cl;
+    if(t&&startDT(nx)-now<48*36e5){const ms=startDT(nx)-now;cnt=Math.floor(ms/36e5)+'h';cl=String(Math.floor(ms/6e4)%60).padStart(2,'0')+' min do začetka'}
+    else if(diff===0){cnt='Danes';cl=''}else{cnt=diff;cl='še '+plural(diff,'dan','dneva','dnevi','dni')}
+    el.innerHTML=`<div class="tk-main"><div class="tk-k">Naslednja izmena</div><div class="tk-day">${d.getDate()}. ${MS[d.getMonth()]}</div><div class="tk-wd">${DN[d.getDay()]}</div><div class="tk-meta"><span class="chip">${esc(NAME(c))}</span><span class="chip">${esc(t||'ura ni nastavljena')}</span></div></div><div class="tk-side"><div class="tk-cnt">${cnt}</div><div class="tk-cl">${cl}</div></div>`;
+    el.onclick=()=>openDay(nx.d)}
+  const done=M.filter(x=>dt(x.d)<today).length;
+  $('bar').innerHTML=M.map(x=>`<i class="${dt(x.d)<today?'done':''}"></i>`).join('');
+  $('progt').textContent=done+' / '+M.length+' opravljenih';
+  const H=M.reduce((a,x)=>a+hoursOf(x),0),rate=parseFloat(String(S.set.rate).replace(',','.'))||0;
+  $('nums').innerHTML=`<div><b>${M.length}</b><span>izmen</span></div><div><b>${H?Math.round(H*10)/10+' h':'–'}</b><span>${H?'skupaj ur':'nastavi ure'}</span></div><div><b>${H&&rate?eur(H*rate).replace(/,00/,''):'–'}</b><span>zaslužek</span></div>`;
+  const left=M.filter(x=>dt(x.d)>=today).length;
+  $('hello').innerHTML=`Živijo, <strong>${esc(title(S.set.me).split(' ')[0])}</strong>. Pred tabo ${plural(left,'je','sta','so','je')} še ${left} ${plural(left,'izmena','izmeni','izmene','izmen')}.`;
+  // today
+  const tx=MAP[key(today)];const tl=tx?Object.entries(tx.c):[];
+  $('todayH').textContent='Danes na stojnici · '+DS[today.getDay()]+' '+today.getDate()+'. '+(today.getMonth()+1)+'.';
+  $('todayRow').innerHTML=!tx?`<span class="empty">Današnji dan ni v urniku (urnik velja ${fmtD(dt(S.sched.days[0].d))} – ${fmtD(dt(S.sched.days.at(-1).d))}).</span>`:tl.length?tl.map(([n,c])=>`<span class="pp"><i style="background:${pc(n)}">${esc(ini(n))}</i>${esc(title(n).split(' ')[0])} <span class="tag ${base(c)}">${esc(c)}</span></span>`).join(''):'<span class="empty">Danes ni nihče vpisan.</span>';
+  const up=M.filter(x=>dt(x.d)>=today).slice(0,4);
+  $('upcS').textContent=up.length?'naslednje '+up.length:'';
+  $('upc').innerHTML=up.length?up.map(rowHTML).join(''):'<p class="empty">Ni prihajajočih izmen.</p>';
+}
+function rowHTML(x){const d=dt(x.d),c=myCode(x),t=tstr(c,x.d),o=others(x);const l=S.log[x.d];
+  return `<button class="sh ${d<today?'past':''}" data-d="${x.d}"><div class="dt ${base(c)}"><b>${d.getDate()}</b><span>${MS[d.getMonth()]}</span></div><div><div class="t1">${DN[d.getDay()]}${l&&l.note?' ✎':''}</div><div class="t2">${esc(NAME(c))} · ${o.length} ${plural(o.length,'oseba','osebi','osebe','oseb')} isti dan</div></div><div><div class="tm ${t?'':'none'}">${esc(t||'ura ?')}</div><div class="av">${o.slice(0,3).map(([n])=>`<i style="background:${pc(n)}" title="${esc(title(n))}">${esc(ini(n))}</i>`).join('')}</div></div></button>`}
+
+let curM=null,calMode='me';
+function months(){return[...new Set(S.sched.days.map(x=>x.d.slice(0,7)))]}
+function renderCal(){
+  const ms=months();if(!ms.includes(curM)){const n=mine().find(x=>dt(x.d)>=today);curM=(n?n.d:S.sched.days[0].d).slice(0,7);if(!ms.includes(curM))curM=ms[0]}
+  $('seg').innerHTML=ms.map(m=>{const[y,mm]=m.split('-');return `<button aria-pressed="${m===curM}" data-m="${m}">${MS[+mm-1]}${y!=String(new Date().getFullYear())?' '+y.slice(2):''}</button>`}).join('');
+  $('seg').querySelectorAll('button').forEach(b=>b.onclick=()=>{curM=b.dataset.m;renderCal()});
+  $('calMode').querySelectorAll('button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.m===calMode);b.onclick=()=>{calMode=b.dataset.m;renderCal()}});
+  const[y,m]=curM.split('-').map(Number);const first=new Date(y,m-1,1),n=new Date(y,m,0).getDate();
+  let h=['pon','tor','sre','čet','pet','sob','ned'].map(x=>`<div class="wd">${x}</div>`).join('');
+  for(let i=0;i<(first.getDay()+6)%7;i++)h+='<div class="cell blank"></div>';
+  for(let d=1;d<=n;d++){const dd=new Date(y,m-1,d),k=key(dd),x=MAP[k],c=myCode(x);
+    const cls=['cell'];if(!x)cls.push('oor');else cls.push(c?base(c):'free');
+    if(dd.getTime()===today.getTime())cls.push('today');if(c&&dd<today)cls.push('past');
+    const cnt=x?Object.keys(x.c).length:0;
+    const sub=calMode==='all'&&x?`<span class="cnt" style="${c?'color:inherit':''}">${cnt} ${plural(cnt,'oseba','osebi','osebe','oseb')}</span>`:(c?`<small>${esc(c)}</small>`:'');
+    const lab=x?`${d}. ${MN[m-1]}, ${DN[dd.getDay()]}: ${c?NAME(c):'prosto'}`:`${d}. ${MN[m-1]}, izven urnika`;
+    h+=`<button class="${cls.join(' ')}" ${x?`data-d="${k}"`:'disabled'} aria-label="${esc(lab)}">${d}${sub}${x&&S.log[k]&&S.log[k].note?'<span class="dot"></span>':''}</button>`}
+  $('cal').innerHTML=h;
+  $('cal').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>openDay(b.dataset.d));
+  const codes=[...new Set(mine().map(x=>base(myCode(x))))];
+  $('legend').innerHTML=codes.map(c=>`<span><i style="background:${c==='POP'?'var(--mustard)':c==='DOP'?'#9fd2b5':'var(--ember)'}"></i>${NAME(c)}</span>`).join('')+`<span><i style="background:var(--frost)"></i>Prosto</span><span><i style="background:var(--ink);border-radius:50%;width:7px;height:7px"></i>Opomba</span>`;
+  // list grouped by week
+  const g={};mine().forEach(x=>{const d=dt(x.d);const mon=new Date(d);mon.setDate(d.getDate()-((d.getDay()+6)%7));(g[key(mon)]=g[key(mon)]||[]).push(x)});
+  $('list').innerHTML=Object.entries(g).map(([k,arr])=>{const s=dt(k),e=new Date(s);e.setDate(s.getDate()+6);const th=today>=s&&today<=e;
+    return `<div class="wkh"><span>${th?'Ta teden':'Teden '+s.getDate()+'. '+(s.getMonth()+1)+'. – '+e.getDate()+'. '+(e.getMonth()+1)+'.'}</span><span>${arr.length} ${plural(arr.length,'izmena','izmeni','izmene','izmen')}</span></div>`+arr.map(rowHTML).join('')}).join('')||'<p class="empty">V tem urniku nimaš izmen.</p>';
+}
+
+let wIdx=null;
+function weeks(){const w=[];const f=dt(S.sched.days[0].d);const s=new Date(f);s.setDate(f.getDate()-((f.getDay()+6)%7));const l=dt(S.sched.days.at(-1).d);for(let d=new Date(s);d<=l;d.setDate(d.getDate()+7))w.push(new Date(d));return w}
+function renderTeam(){
+  const W=weeks();if(wIdx===null||wIdx>=W.length){wIdx=W.findIndex(w=>{const e=new Date(w);e.setDate(w.getDate()+6);return today>=w&&today<=e});if(wIdx<0)wIdx=today<W[0]?0:W.length-1}
+  const s=W[wIdx],ds=[...Array(7)].map((_,i)=>{const d=new Date(s);d.setDate(s.getDate()+i);return d});
+  $('wLab').textContent=ds[0].getDate()+'. '+(ds[0].getMonth()+1)+'. – '+ds[6].getDate()+'. '+(ds[6].getMonth()+1)+'.';
+  $('wPrev').disabled=wIdx===0;$('wNext').disabled=wIdx===W.length-1;
+  let h='<tr><th class="n"></th>'+ds.map(d=>`<th class="${d.getTime()===today.getTime()?'today':''}">${DS[d.getDay()]}<br>${d.getDate()}.</th>`).join('')+'</tr>';
+  S.sched.people.forEach(p=>{h+=`<tr class="${p===S.set.me?'me':''}"><td class="n" data-p="${esc(p)}">${esc(title(p).split(' ')[0])} ${esc((title(p).split(' ')[1]||'')[0]||'')}.</td>`+ds.map(d=>{const x=MAP[key(d)];const c=x?x.c[p]||'':'';return `<td class="c-${x?base(c):''}" ${x?'':'style="background:transparent"'} title="${esc(c)}">${esc(c)}</td>`}).join('')+'</tr>'});
+  $('grid').innerHTML=h;
+  $('grid').querySelectorAll('[data-p]').forEach(t=>t.onclick=()=>openPerson(t.dataset.p));
+  const cnt={};mine().forEach(x=>others(x).forEach(([n,c])=>{cnt[n]=cnt[n]||{n:0,pre:0};cnt[n].n++;if(base(c)==='DOP'&&base(myCode(x))==='POP')cnt[n].pre++}));
+  const arr=Object.entries(cnt).sort((a,b)=>b[1].n-a[1].n);const max=arr.length?arr[0][1].n:1;
+  $('mates').innerHTML=arr.map(([n,v])=>`<button class="mate" data-p="${esc(n)}"><div class="a" style="background:${pc(n)}">${esc(ini(n))}</div><div><div class="n">${esc(title(n))}</div><div class="s">${v.pre===v.n?'dopoldan pred tvojo izmeno':v.pre?v.pre+'× pred tabo, '+(v.n-v.pre)+'× v isti izmeni':'v isti izmeni'}</div><div class="mbar"><i style="width:${v.n/max*100}%"></i></div></div><div class="c">${v.n}</div></button>`).join('')||'<p class="empty">Ni podatkov.</p>';
+  $('mates').querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>openPerson(b.dataset.p));
+}
+$('wPrev').onclick=()=>{wIdx--;renderTeam()};$('wNext').onclick=()=>{wIdx++;renderTeam()};
+
+let hM='all';
+function renderHours(){
+  const ms=months();if(hM!=='all'&&!ms.includes(hM))hM='all';
+  $('hSeg').innerHTML=`<button data-m="all" aria-pressed="${hM==='all'}">Vse</button>`+ms.map(m=>`<button data-m="${m}" aria-pressed="${m===hM}">${MN[+m.split('-')[1]-1]}</button>`).join('');
+  $('hSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{hM=b.dataset.m;renderHours()});
+  const M=mine().filter(x=>hM==='all'||x.d.startsWith(hM));
+  const rate=parseFloat(String(S.set.rate).replace(',','.'))||0;
+  const H=M.reduce((a,x)=>a+hoursOf(x),0),Hd=M.filter(x=>dt(x.d)<today).reduce((a,x)=>a+hoursOf(x),0);
+  $('hTot').innerHTML=`<div><b>${M.length}</b><span>izmen</span></div><div><b>${H?Math.round(H*10)/10:'–'}</b><span>ur skupaj</span></div><div><b>${H&&rate?eur(H*rate).replace(/,00/,''):'–'}</b><span>zaslužek</span></div>`;
+  const miss=[...new Set(M.filter(x=>!hoursOf(x)).map(x=>base(myCode(x))))];
+  $('hNote').innerHTML=miss.length?`Za izmene ${miss.map(c=>'<b>'+c+'</b>').join(', ')} ura začetka in konca še ni nastavljena, zato niso všteti v ure. <a href="#more" data-go="more" style="color:var(--ink)">Nastavi ure</a>`:(rate?`Opravljeno doslej: ${hfmt(Hd)} (${eur(Hd*rate)}). Zaslužek je ocena po urni postavki ${eur(rate)}.`:'Za izračun zaslužka vpiši urno postavko v nastavitvah.');
+  $('hList').innerHTML=M.map(x=>{const d=dt(x.d),h=hoursOf(x),l=S.log[x.d];return `<button class="hr" data-d="${x.d}"><span><b style="text-transform:capitalize">${DS[d.getDay()]}</b> ${d.getDate()}. ${d.getMonth()+1}. <span class="tag ${base(myCode(x))}">${esc(myCode(x))}</span>${l&&l.s?'<span class="edited">dejanske</span>':''}</span><span class="h">${h?hfmt(h):'–'}</span><span class="e">${h&&rate?eur(h*rate):''}</span></button>`}).join('')||'<p class="empty">Ni izmen v tem obdobju.</p>';
+  $('hList').querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>openDay(b.dataset.d));
+}
+
+function renderMore(){$('resetWrap').hidden=!S.sched.local;
+  $('meSel').innerHTML=S.sched.people.map(p=>`<option value="${esc(p)}" ${p===S.set.me?'selected':''}>${esc(title(p))}</option>`).join('');
+  const codes=[...new Set(S.sched.days.flatMap(x=>Object.values(x.c).map(base)))].filter(c=>c&&c!=='X');
+  ['POP','DOP','K'].forEach(c=>{if(!codes.includes(c))codes.push(c)});
+  $('timeF').innerHTML=codes.map(c=>{const t=S.set.times[c]||['',''];return `<div class="grp"><h4><span class="tag ${c}">${c}</span>${NAME(c)}</h4><div class="two"><label class="f">Začetek<input type="time" data-k="${c}" data-i="0" value="${esc(t[0])}"></label><label class="f">Konec<input type="time" data-k="${c}" data-i="1" value="${esc(t[1])}"></label></div></div>`}).join('');
+  $('rate').value=S.set.rate||'';
+  $('srcS').textContent=S.sched.source?'zdaj: '+S.sched.source:'';
+}
+$('meSel').onchange=e=>{S.set.me=e.target.value;S.set.chosen=true;persist();renderAll();toast('Prikaz za '+title(S.set.me))};
+$('clearSet').onclick=()=>{sheet(`<h3 id="shT" style="text-transform:none">Počisti vse?</h3><div class="sub">Izbrisane bodo vse nastavljene ure izmen in urna postavka. Urnik, opombe in dejanske ure ostanejo.</div>
+  <div class="btns"><button class="btn" style="background:var(--ember);color:#fff" id="clrOk">Počisti vse</button><button class="btn soft" onclick="closeSheet()">Prekliči</button></div>`);
+  $('clrOk').onclick=()=>{Object.keys(S.set.times).forEach(k=>S.set.times[k]=['','']);S.set.rate='';persist();renderAll();closeSheet();toast('Ure in urna postavka počiščene')}};
+$('saveSet').onclick=()=>{document.querySelectorAll('#timeF input').forEach(i=>{S.set.times[i.dataset.k]=S.set.times[i.dataset.k]||['',''];S.set.times[i.dataset.k][+i.dataset.i]=i.value});S.set.rate=$('rate').value;persist();renderAll();toast('Nastavitve shranjene')};
+
+/* ---------- sheets ---------- */
+let lastF=null,chooserOpen=false;
+function sheet(h){lastF=document.activeElement;$('shBody').innerHTML=h;$('scrim').classList.add('on');$('sheet').classList.add('on');$('sheet').scrollTop=0;setTimeout(()=>{const f=$('sheet').querySelector('h3');f&&f.setAttribute('tabindex','-1');f&&f.focus()},60)}
+function closeSheet(){$('scrim').classList.remove('on');$('sheet').classList.remove('on');lastF&&lastF.focus&&lastF.focus()}
+$('scrim').onclick=()=>{if(!chooserOpen)closeSheet()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!chooserOpen)closeSheet()});
+function gcal(x){const c=myCode(x),d=dt(x.d);const l=S.log[x.d];const t=(l&&l.s)?[l.s,l.e]:tFor(c);const ymd=x.d.replace(/-/g,'');let dates;
+  if(t[0]){const st=ymd+'T'+t[0].replace(':','')+'00';let en=new Date(d);const[eh,em]=(t[1]||t[0]).split(':').map(Number);const[sh,sm]=t[0].split(':').map(Number);en.setHours(eh,em);if(t[1]&&(eh*60+em)<=(sh*60+sm))en.setDate(en.getDate()+1);if(!t[1])en.setHours(sh+4,sm);dates=st+'/'+key(en).replace(/-/g,'')+'T'+String(en.getHours()).padStart(2,'0')+String(en.getMinutes()).padStart(2,'0')+'00'}
+  else{const n=new Date(d);n.setDate(d.getDate()+1);dates=ymd+'/'+key(n).replace(/-/g,'')}
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Aja in Klobasa – '+NAME(c))+'&dates='+dates+'&ctz=Europe/Ljubljana&details='+encodeURIComponent('Izmena '+c+(l&&l.note?'\n'+l.note:''))}
+function openDay(k){const x=MAP[k];if(!x)return;const d=dt(k),c=myCode(x),l=S.log[k]||{},tp=tFor(c),t=tstr(c,k),o=Object.entries(x.c).filter(([n])=>n!==S.set.me);
+  sheet(`<h3 id="shT">${DN[d.getDay()]}</h3><div class="sub">${fmtD(d)}</div>
+  <div class="bigc ${c?base(c):'free'}"><b>${c?esc(NAME(c)):'Prost dan'}</b><span>${c?esc(t||'ura ?'):''}</span></div>
+  <div class="t2" style="font-weight:600">${o.length?'Isti dan na stojnici':'Ta dan ni vpisan nihče drug.'}</div>
+  <div class="who">${o.map(([n,cc])=>`<div><span>${esc(title(n))}</span><span class="tag ${base(cc)}">${esc(NAME(cc))}</span></div>`).join('')}</div>
+  ${c?`<div class="grp"><h4>Dejanske ure</h4><div class="note" style="margin-top:4px">Če si delal drugače kot po urniku, vpiši tukaj. Prazno pomeni ure po urniku${tp[0]?' ('+esc(tp[0]+(tp[1]?' – '+tp[1]:''))+')':''}.</div>
+  <div class="two"><label class="f">Začetek<input type="time" id="lS" value="${esc(l.s||'')}"></label><label class="f">Konec<input type="time" id="lE" value="${esc(l.e||'')}"></label></div></div>`:''}
+  <label class="f">Opomba${c?'':' za ta dan'}<textarea id="lN" placeholder="npr. menjava s sodelavcem, prinesi ključ ...">${esc(l.note||'')}</textarea></label>
+  <div class="btns"><button class="btn dark" id="lSave">Shrani</button>${c?`<a class="btn" href="${esc(gcal(x))}" target="_blank" rel="noopener">Dodaj v Google Koledar</a>`:''}<button class="btn soft" id="lClear">Počisti vse</button><button class="btn soft" id="lClose">Zapri</button></div>`);
+  $('lClose').onclick=closeSheet;
+  $('lClear').onclick=()=>{if($('lS'))$('lS').value='';if($('lE'))$('lE').value='';$('lN').value='';delete S.log[k];persist();renderAll();closeSheet();toast('Dejanske ure in opomba počiščene')};
+  $('lSave').onclick=()=>{const v={s:$('lS')?$('lS').value:'',e:$('lE')?$('lE').value:'',note:$('lN').value.trim()};if(!v.s&&!v.e&&!v.note)delete S.log[k];else S.log[k]=v;persist();renderAll();closeSheet();toast('Shranjeno')};
+}
+function openPerson(p){const L=S.sched.days.filter(x=>x.c[p]);const cnt={};L.forEach(x=>{const b=base(x.c[p]);cnt[b]=(cnt[b]||0)+1});
+  sheet(`<h3 id="shT" style="text-transform:none">${esc(title(p))}</h3><div class="sub">${L.length} ${plural(L.length,'izmena','izmeni','izmene','izmen')} · ${Object.entries(cnt).map(([c,n])=>n+'× '+c).join(', ')}</div>
+  <div class="who" style="margin-top:14px">${L.map(x=>{const d=dt(x.d);const w=x.c[S.set.me];return `<div style="${d<today?'opacity:.5':''}"><span><b>${DS[d.getDay()]}</b> ${d.getDate()}. ${d.getMonth()+1}.${w&&p!==S.set.me?' <span class="t2">· ti: '+esc(w)+'</span>':''}</span><span class="tag ${base(x.c[p])}">${esc(x.c[p])}</span></div>`}).join('')}</div>
+  <div class="btns"><button class="btn soft" onclick="closeSheet()">Zapri</button></div>`)}
+
+/* ---------- export ---------- */
+function listText(){return 'Moje izmene – Aja in Klobasa ('+title(S.set.me)+')\n'+mine().map(x=>{const d=dt(x.d),c=myCode(x),t=tstr(c,x.d);return `${DS[d.getDay()]} ${d.getDate()}. ${d.getMonth()+1}. – ${NAME(c)}${t?' ('+t+')':''}`}).join('\n')}
+$('copyBtn').onclick=async()=>{try{await navigator.clipboard.writeText(listText());toast('Seznam kopiran')}catch(e){toast('Kopiranje ni uspelo')}};
+function ics(){const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Aja in Klobasa//Izmene//SL','CALSCALE:GREGORIAN'];
+  const st=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  mine().forEach(x=>{const c=myCode(x),l=S.log[x.d];const t=(l&&l.s)?[l.s,l.e]:tFor(c);const ymd=x.d.replace(/-/g,'');
+    L.push('BEGIN:VEVENT','UID:aja-'+ymd+'-'+base(c)+'@izmene','DTSTAMP:'+st);
+    if(t[0]){const[sh,sm]=t[0].split(':').map(Number);const e=new Date(dt(x.d));if(t[1]){const[eh,em]=t[1].split(':').map(Number);e.setHours(eh,em);if(eh*60+em<=sh*60+sm)e.setDate(e.getDate()+1)}else e.setHours(sh+4,sm);
+      L.push('DTSTART;TZID=Europe/Ljubljana:'+ymd+'T'+t[0].replace(':','')+'00','DTEND;TZID=Europe/Ljubljana:'+key(e).replace(/-/g,'')+'T'+String(e.getHours()).padStart(2,'0')+String(e.getMinutes()).padStart(2,'0')+'00')}
+    else{const n=dt(x.d);n.setDate(n.getDate()+1);L.push('DTSTART;VALUE=DATE:'+ymd,'DTEND;VALUE=DATE:'+key(n).replace(/-/g,''))}
+    L.push('SUMMARY:Aja in Klobasa – '+NAME(c),'DESCRIPTION:Izmena '+c+(l&&l.note?'\\n'+l.note.replace(/[\n,;]/g,' '):''),'END:VEVENT')});
+  L.push('END:VCALENDAR');return L.join('\r\n')}
+$('icsBtn').onclick=async()=>{try{const b=new Blob([ics()],{type:'text/calendar'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='izmene-aja-in-klobasa.ics';document.body.appendChild(a);a.click();a.remove();toast('Datoteka prenesena');return}catch(e){}let dl=null;
+  if(!dl){try{await navigator.clipboard.writeText(ics());toast('Prenos tukaj ni na voljo – vsebina .ics je kopirana')}catch(e){toast('Prenos ni na voljo')}return}
+  try{await dl.save({filename:'izmene-aja-in-klobasa.ics',data:ics()});toast('Datoteka pripravljena')}catch(e){toast('Prenos preklican')}};
+
+/* ---------- excel import ---------- */
+const MONTHS={jan:0,feb:1,mar:2,apr:3,maj:4,may:4,jun:5,jul:6,avg:7,aug:7,sep:8,okt:9,oct:9,nov:10,dec:11};
+const WDN=['NEDELJA','PONEDELJEK','TOREK','SREDA','ČETRTEK','PETEK','SOBOTA'];
+function loadXLSX(){return new Promise((res,rej)=>{if(window.XLSX)return res();const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=res;s.onerror=()=>rej(new Error('Knjižnice za branje Excela ni bilo mogoče naložiti.'));document.head.appendChild(s)})}
+function parseRows(rows){
+  let wdR=-1,dR=-1;
+  for(let r=0;r<Math.min(rows.length,15);r++){const row=rows[r]||[];const w=row.filter(v=>WDN.includes(String(v||'').trim().toUpperCase())).length;if(w>=3&&wdR<0)wdR=r;
+    const dc=row.filter(v=>v instanceof Date||/^\s*\d{1,2}\s*[-.\/ ]\s*[a-zčšž]{3}/i.test(String(v||''))||/^\s*\d{1,2}\.\s*\d{1,2}\.?/.test(String(v||''))).length;if(dc>=3&&dR<0)dR=r}
+  if(dR<0)throw new Error('V tabeli ne najdem vrstice z datumi.');
+  const head=rows[dR];const cols=[];
+  head.forEach((v,j)=>{if(j===0||v==null||v==='')return;let d=null,m=null,y=null;
+    if(v instanceof Date){d=v.getDate();m=v.getMonth();y=v.getFullYear()}
+    else{const s=String(v).trim().toLowerCase();let mm=s.match(/^(\d{1,2})\s*[-.\/ ]\s*([a-zčšž]{3})/);if(mm&&mm[2] in MONTHS){d=+mm[1];m=MONTHS[mm[2]]}else{mm=s.match(/^(\d{1,2})\.\s*(\d{1,2})\.?\s*(\d{4})?/);if(mm){d=+mm[1];m=+mm[2]-1;if(mm[3])y=+mm[3]}}}
+    if(d!=null)cols.push({j,d,m,y,wd:wdR>=0?String((rows[wdR]||[])[j]||'').trim().toUpperCase():''})});
+  if(!cols.length)throw new Error('Datumov ni bilo mogoče prebrati.');
+  // assign years: offsets from wraps
+  let off=0;cols.forEach((c,i)=>{if(i&&c.m<cols[i-1].m-6)off++;c.off=off});
+  let y0=null;const a=cols.find(c=>c.y);if(a)y0=a.y-a.off;
+  if(y0==null){const c=cols.find(c=>WDN.includes(c.wd));const cy=new Date().getFullYear();for(const y of [cy,cy+1,cy-1]){if(!c||new Date(y+c.off,c.m,c.d).getDay()===WDN.indexOf(c.wd)){y0=y;break}}if(y0==null)y0=cy}
+  const days=cols.map(c=>({j:c.j,d:key(new Date(y0+c.off,c.m,c.d)),c:{}}));
+  const people=[];
+  for(let r=dR+1;r<rows.length;r++){const row=rows[r]||[];const n=String(row[0]||'').trim();if(!n||/IME IN PRIIMEK/i.test(n))continue;
+    const vals=days.map(x=>String(row[x.j]??'').trim()).filter(Boolean);
+    if(!people.includes(n.toUpperCase()))people.push(n.toUpperCase());
+    days.forEach(x=>{const v=String(row[x.j]??'').trim();if(v)x.c[n.toUpperCase()]=v.toUpperCase()})}
+  if(!people.length)throw new Error('V tabeli ne najdem imen zaposlenih.');
+  return{people,days:days.map(({d,c})=>({d,c}))}
+}
+async function importFile(f){try{toast('Berem '+f.name+' …');await loadXLSX();const buf=await f.arrayBuffer();const wb=XLSX.read(buf,{cellDates:true});const ws=wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null});const p=parseRows(rows);
+  const first=dt(p.days[0].d),last=dt(p.days.at(-1).d);
+  sheet(`<h3 id="shT" style="text-transform:none">Nov urnik</h3><div class="sub">${esc(f.name)}</div>
+   <div class="who" style="margin-top:14px"><div><span>Obdobje</span><b>${fmtD(first)} – ${fmtD(last)}</b></div><div><span>Dni</span><b>${p.days.length}</b></div><div><span>Zaposleni</span><b>${p.people.length}</b></div></div>
+   <label class="f">Kdo si v tem urniku<select id="impMe">${p.people.map(n=>`<option value="${esc(n)}" ${n===S.set.me?'selected':''}>${esc(title(n))}</option>`).join('')}</select></label>
+   <p class="note">Trenutni urnik bo zamenjan${isOwner?' za vse, ki uporabljajo aplikacijo':''}. Nastavljene ure izmen, urna postavka in opombe ostanejo.</p>
+   <div class="btns"><button class="btn dark" id="impOk">Uporabi nov urnik</button><button class="btn soft" onclick="closeSheet()">Prekliči</button></div>`);
+  $('impOk').onclick=async()=>{S.sched={people:p.people,days:p.days,source:f.name,local:true};S.set.me=$('impMe').value;S.set.chosen=true;curM=null;wIdx=null;persist();renderAll();closeSheet();go('home');
+    toast('Urnik posodobljen na tej napravi')};
+}catch(e){toast(e.message||'Datoteke ni bilo mogoče prebrati.')}finally{$('xlsx').value=''}}
+$('resetSched').onclick=()=>{try{localStorage.removeItem('aja-app-sched-local')}catch(e){};delete S.sched.local;S.sched=JSON.parse(JSON.stringify(sharedSched||DEFAULT));persist();renderAll();toast('Skupni urnik vrnjen')};
+$('xlsx').onchange=e=>{const f=e.target.files[0];if(f)importFile(f)};
+const drop=$('drop');['dragover','dragenter'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)importFile(f)});
+
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2600)}
+function renderAll(){today=now0();MAP=dayMap();renderHome();renderCal();renderTeam();renderHours();renderMore();
+  document.querySelectorAll('.sh[data-d]').forEach(b=>b.onclick=()=>openDay(b.dataset.d))}
+function chooser(){chooserOpen=true;sheet(`<h3 id="shT" style="text-transform:none">Kdo si?</h3><div class="sub">Izberi svoje ime v urniku. Aplikacija bo pokazala tvoje izmene. Kasneje ga lahko spremeniš v zavihku Več.</div>
+  <div class="who" style="margin-top:14px">${S.sched.people.map(p=>`<button class="mate" data-me="${esc(p)}" style="padding:6px 8px;background:var(--frost);border-radius:12px"><div class="a" style="background:${pc(p)}">${esc(ini(p))}</div><div class="n">${esc(title(p))}</div><div></div></button>`).join('')}</div>`);
+  $('shBody').querySelectorAll('[data-me]').forEach(b=>b.onclick=()=>{S.set.me=b.dataset.me;S.set.chosen=true;chooserOpen=false;persist();renderAll();closeSheet();toast('Pozdravljen/a, '+title(S.set.me).split(' ')[0])})}
+renderAll();
+if(!S.set.chosen)setTimeout(()=>{if(!S.set.chosen)chooser()},400);
+const h0=(location.hash||'').slice(1);go(['home','cal','team','hours','more'].includes(h0)?h0:'home');
+setInterval(()=>{const t=now0();if(t.getTime()!==today.getTime())renderAll();else renderHome();document.querySelectorAll('#upc .sh[data-d]').forEach(b=>b.onclick=()=>openDay(b.dataset.d))},60000);
+</script></body></html>
