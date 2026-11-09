@@ -18,6 +18,8 @@ button{cursor:pointer}
 .logo{width:38px;height:38px;border-radius:12px;background:var(--mustard);display:grid;place-items:center;flex:none}
 .brand b{display:block;font-size:16px;font-weight:700;font-stretch:85%}
 .brand span{font-size:13px;color:var(--mut2)}
+.topr{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.impbtn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:12px;padding:8px 12px;background:var(--mustard);color:var(--ink);font-weight:700;font-size:13px}
 .sync{font-size:12px;color:var(--mut2);display:flex;align-items:center;gap:6px}
 .sync i{width:8px;height:8px;border-radius:50%;background:#6b8a7e;display:inline-block}
 .sync.ok i{background:#5fd39a}
@@ -162,7 +164,7 @@ h1.v{font-size:30px;font-weight:800;font-stretch:80%;margin:24px 2px 14px;letter
       <div class="logo" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="7" rx="3.5" fill="#123a2f"/><path d="M6 12.5c2-1 4 1 6 0s4-1 6 0" stroke="#e2ae35" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></div>
       <div><b>Aja in Klobasa</b><span id="whoami"></span></div>
     </div>
-    <div class="sync" id="sync"><i></i><span>Shranjeno na napravi</span></div>
+    <div class="topr"><div class="sync" id="sync"><i></i><span>Shranjeno na napravi</span></div><button class="impbtn" id="importTop" aria-label="Uvozi urnik iz Excela"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Uvozi urnik</button></div>
   </header>
 
   <!-- DOMOV -->
@@ -231,7 +233,7 @@ h1.v{font-size:30px;font-weight:800;font-stretch:80%;margin:24px 2px 14px;letter
       <p class="note">Datoteko .ics odpreš na telefonu, pa se vse izmene dodajo v Google ali Apple koledar. Posamezno izmeno dodaš v Google Koledar tudi iz okna dneva.</p>
     </section>
     <section class="panel">
-      <div class="ph"><h2>Nov urnik</h2><span class="s" id="srcS"></span></div>
+      <div class="ph"><h2>Uvozi urnik</h2><span class="s" id="srcS"></span></div>
       <label class="file" id="drop"><b>Naloži Excel z urnikom</b>Nov urnik (.xlsx) se naloži samo na tej napravi. Za vse ga posodobi skrbnik na GitHubu.<input type="file" id="xlsx" accept=".xlsx,.xls,.xlsm,.csv"></label>
       <div class="btns" id="resetWrap" hidden><button class="btn soft" id="resetSched">Vrni skupni urnik</button></div>
     </section>
@@ -503,6 +505,7 @@ async function importFile(f){try{toast('Berem '+f.name+' …');await loadXLSX();
     toast('Urnik posodobljen na tej napravi')};
 }catch(e){toast(e.message||'Datoteke ni bilo mogoče prebrati.')}finally{$('xlsx').value=''}}
 $('resetSched').onclick=()=>{try{localStorage.removeItem('aja-app-sched-local')}catch(e){};delete S.sched.local;S.sched=JSON.parse(JSON.stringify(sharedSched||DEFAULT));persist();renderAll();toast('Skupni urnik vrnjen')};
+$('importTop').onclick=()=>$('xlsx').click();
 $('xlsx').onchange=e=>{const f=e.target.files[0];if(f)importFile(f)};
 const drop=$('drop');['dragover','dragenter'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)importFile(f)});
 
